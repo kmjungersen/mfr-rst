@@ -7,12 +7,11 @@ from mfr_rst.render import render_html
 __version__ = '0.1.0'
 
 EXTENSIONS = [
-    # TODO: finish this list
+    '.rst'
 ]
 
 
-class Handler(FileHandler):
-    # Renderers and exporters are callables
+class rst_Handler(FileHandler):
     renderers = {
         'html': render_html
     }
