@@ -1,4 +1,4 @@
-"""rst renderer module"""
+"""RST renderer module"""
 
 from docutils.core import publish_parts
 
