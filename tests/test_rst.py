@@ -4,9 +4,9 @@ import mock
 import pytest
 from docutils.core import publish_parts
 
-# import mfr
-# from mfr_docx import Handler as RstHandler
-# from mfr_docx.render import render_html
+import mfr
+from mfr_docx import Handler as RstHandler
+from mfr_docx.render import render_html
 
 
 @pytest.fixture
@@ -14,23 +14,23 @@ def fakefile():
     """A simple file-like object"""
     return mock.Mock(spec=file)
 
-# def setup_function(func):
-#     mfr.register_filehandler(RstHandler)
-#     mfr.config['STATIC_URL'] = '/static'
-#
-# def teardown_function(func):
-#     mfr.core.reset_config()
-#
-# def test_detect_docx_extension():
-#     fakefile.name = 'file.rst'
-#     handler = RstHandler()
-#
-#     assert handler.detect(fakefile) is True
-#
-# def test_dont_detect_RST_extension():
-#     fakefile.name = 'file.txt'
-#     handler = RstHandler()
-#     assert handler.detect(fakefile) is False
+def setup_function(func):
+    mfr.register_filehandler(RstHandler)
+    mfr.config['STATIC_URL'] = '/static'
+
+def teardown_function(func):
+    mfr.core.reset_config()
+
+def test_detect_docx_extension():
+    fakefile.name = 'file.rst'
+    handler = RstHandler()
+
+    assert handler.detect(fakefile) is True
+
+def test_dont_detect_RST_extension():
+    fakefile.name = 'file.txt'
+    handler = RstHandler()
+    assert handler.detect(fakefile) is False
 
 def test_render_text(fakefile):
     test_string = 'Hello World'
@@ -40,8 +40,6 @@ def test_render_text(fakefile):
                                 writer_name='html')['html_body']
 
     assert test_string in html_string
-
-
 
 def test_for_html_tags(fakefile):
     test_string = 'What is reStructuredText?\n~~~~~~~~~~~~~~~~~~~~~~~~~'
