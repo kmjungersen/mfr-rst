@@ -1,7 +1,8 @@
 *************************************
-mfr-rst
+MFR-RST
 *************************************
 
-rst support for mfr.
+This module enables ReStructured Text support for the MFR.
 
-TODO
+
+#TODO
