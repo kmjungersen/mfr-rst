@@ -5,8 +5,8 @@ import pytest
 from docutils.core import publish_parts
 
 import mfr
-from mfr_docx import Handler as RstHandler
-from mfr_docx.render import render_html
+from mfr_rst import Handler as RstHandler
+from mfr_rst.render import render_html
 
 
 @pytest.fixture
@@ -36,8 +36,7 @@ def test_render_text(fakefile):
     test_string = 'Hello World'
     fakefile.return_value = test_string
 
-    html_string = publish_parts(fakefile.return_value,
-                                writer_name='html')['html_body']
+    html_string = render_html(fakefile)
 
     assert test_string in html_string
 
@@ -49,8 +48,7 @@ def test_for_html_tags(fakefile):
                     '<h1 class="title">What is reStructuredText?</h1>\n' \
                     '</div>\n'
 
-    html_string = publish_parts(fakefile.return_value,
-                                writer_name='html')['html_body']
+    html_string = render_html(fakefile)
 
     assert html_string == target_string
 
@@ -62,8 +60,7 @@ def test_for_bold(fakefile):
                     '<p><strong>bold text</strong></p>\n' \
                     '</div>'
 
-    html_string = publish_parts(fakefile.return_value,
-                                writer_name='html')['html_body']
+    html_string = render_html(fakefile)
 
     assert target_string in html_string
 
@@ -71,8 +68,7 @@ def test_for_unicode_character(fakefile):
     test_string = u'\xfc'
     fakefile.return_value = test_string
 
-    html_string = publish_parts(fakefile.return_value,
-                                writer_name='html')['html_body']
+    html_string = render_html(fakefile)
 
     print html_string
     assert test_string in html_string
