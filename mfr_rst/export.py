@@ -1,4 +1,4 @@
 # -*- coding: utf-8 -*-
-""" exporter module."""
+"""RST exporter module"""
 
 #TODO(kmjungersen): Find formats to export

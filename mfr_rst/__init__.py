@@ -7,13 +7,13 @@ from mfr_rst.render import render_html
 __version__ = '0.1.0'
 
 EXTENSIONS = [
-    '.rst'
+    '.rst',
 ]
 
 
-class rst_Handler(FileHandler):
+class Handler(FileHandler):
     renderers = {
-        'html': render_html
+        'html': render_html,
     }
 
     def detect(self, fp):
