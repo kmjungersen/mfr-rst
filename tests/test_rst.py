@@ -18,8 +18,10 @@ def setup_function(func):
     mfr.register_filehandler(RstHandler)
     mfr.config['STATIC_URL'] = '/static'
 
+
 def teardown_function(func):
     mfr.core.reset_config()
+
 
 def test_detect_docx_extension():
     fakefile.name = 'file.rst'
@@ -27,22 +29,25 @@ def test_detect_docx_extension():
 
     assert handler.detect(fakefile) is True
 
+
 def test_dont_detect_RST_extension():
     fakefile.name = 'file.txt'
     handler = RstHandler()
     assert handler.detect(fakefile) is False
 
+
 def test_render_text(fakefile):
     test_string = 'Hello World'
-    fakefile.return_value = test_string
+    fakefile.read.return_value = test_string
 
     html_string = render_html(fakefile)
 
     assert test_string in html_string
 
+
 def test_for_html_tags(fakefile):
     test_string = 'What is reStructuredText?\n~~~~~~~~~~~~~~~~~~~~~~~~~'
-    fakefile.return_value = test_string
+    fakefile.read.return_value = test_string
 
     target_string = '<div class="document" id="what-is-restructuredtext">\n' \
                     '<h1 class="title">What is reStructuredText?</h1>\n' \
@@ -52,9 +57,10 @@ def test_for_html_tags(fakefile):
 
     assert html_string == target_string
 
+
 def test_for_bold(fakefile):
     test_string = '**bold text**'
-    fakefile.return_value = test_string
+    fakefile.read.return_value = test_string
 
     target_string = '<div class="document">\n' \
                     '<p><strong>bold text</strong></p>\n' \
@@ -64,22 +70,11 @@ def test_for_bold(fakefile):
 
     assert target_string in html_string
 
+
 def test_for_unicode_character(fakefile):
     test_string = u'\xfc'
-    fakefile.return_value = test_string
+    fakefile.read.return_value = test_string
 
     html_string = render_html(fakefile)
 
-    print html_string
     assert test_string in html_string
-
-
-
-
-#TODO(kmjungersen): ATTN(sloria) - Is this test for unicode really necessary? it's been included
-#TODO:             in previous renderers but I personally don't see the need.
-
-# def test_for_unicode(fakefile):
-#     test_string = 'Hello World'
-#     fakefile.return_value = test_string
-#     assert isinstance(fakefile.return_value, unicode)
